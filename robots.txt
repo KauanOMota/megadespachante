@@ -6,4 +6,4 @@ Disallow: /assets/
 Disallow: /*.json$
 
 # Sitemap
-Sitemap: https://megadespachante.com.br/sitemap.xml
+Sitemap: https://megadespachantegru.com.br/sitemap.xml
