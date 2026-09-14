@@ -167,7 +167,9 @@
       justify-content: space-between;
       padding: 0 1rem;
       border-bottom: 1px solid var(--muted);
+      transition: box-shadow .25s ease, background .25s ease;
     }
+    nav.scrolled { box-shadow: 0 4px 22px rgba(10,30,80,.09); background: rgba(255,255,255,.99); }
     @media(min-width: 768px) { nav { padding: 0 2rem; height: 64px; } }
 
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
@@ -303,7 +305,8 @@
       position: relative;
       overflow: hidden;
     }
-        .btn-primary:hover {
+        .btn-primary:active { transform: translateY(0) scale(.985); }
+    .btn-primary:hover {
       background: var(--gold-lt);
       transform: translateY(-2px);
       box-shadow: 0 10px 30px rgba(13,30,82,.35);
@@ -368,16 +371,6 @@
     }
     @media(min-width: 768px) { .hero { padding: 8.5rem 0 4.5rem; } }
 
-    .hero-location {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(26,63,168,.07);
-      border: 1px solid rgba(26,63,168,.16);
-      color: var(--brand);
-      font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-      padding: .34rem .85rem; border-radius: 50px; margin-bottom: 1rem; width: fit-content;
-    }
-    .hero-location svg { width: 11px; height: 11px; fill: var(--brand); flex-shrink: 0; }
-
     .hero h1 {
       font-family: 'Barlow', sans-serif;
       font-weight: 600;
@@ -436,6 +429,7 @@
       white-space: nowrap;
     }
     .hero-picker button:hover { background: var(--brand-mid); transform: translateY(-1px); }
+    .hero-picker button:active { transform: translateY(0) scale(.985); }
     .hero-picker button svg { width: 19px; height: 19px; flex-shrink: 0; }
     @media(max-width: 540px) {
       .hero-picker { flex-direction: column; }
@@ -491,7 +485,10 @@
       border: 1.5px solid transparent;
       transition: border-color .25s, transform .2s, box-shadow .25s;
     }
-    .svc:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: var(--sh-lg); }
+    .svc { transition: border-color .25s, transform .3s cubic-bezier(.22,.8,.3,1), box-shadow .3s; }
+    .svc:hover { border-color: var(--brand); transform: translateY(-4px); box-shadow: var(--sh-lg); }
+    .svc-ico { transition: transform .3s cubic-bezier(.22,.8,.3,1), background .25s; }
+    .svc:hover .svc-ico { transform: scale(1.07); background: rgba(26,63,168,.16); }
     .svc-ico {
       width: 46px; height: 46px;
       border-radius: 12px;
@@ -996,10 +993,30 @@
     /* ─── ANIMATIONS ─── */
     .fade {
       opacity: 0;
-      transform: translateY(22px);
-      transition: opacity .6s ease, transform .6s ease;
+      transform: translateY(18px);
+      transition: opacity .7s cubic-bezier(.22,.8,.3,1), transform .7s cubic-bezier(.22,.8,.3,1);
     }
     .fade.in { opacity: 1; transform: translateY(0); }
+
+    /* Entrada do hero: encadeada, curta, uma única vez */
+    .hero-in > * {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: hero-up .65s cubic-bezier(.22,.8,.3,1) forwards;
+    }
+    .hero-in > *:nth-child(1) { animation-delay: .06s; }
+    .hero-in > *:nth-child(2) { animation-delay: .14s; }
+    .hero-in > *:nth-child(3) { animation-delay: .22s; }
+    .hero-in > *:nth-child(4) { animation-delay: .30s; }
+    .hero-in > *:nth-child(5) { animation-delay: .38s; }
+    @keyframes hero-up { to { opacity: 1; transform: none; } }
+
+    /* Foco visível consistente para quem navega por teclado */
+    :focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
     .text-center { text-align: center; }
 
     /* ─── TRUST BADGE ─── */
@@ -1061,27 +1078,6 @@
       border-radius: 0 0 8px 0; font-size: .85rem;
     }
     .skip-link:focus { left: 0; }
-
-    /* ─── OPEN STATUS (aberto agora / próximo horário) ─── */
-    .open-status {
-      display: none; align-items: center; gap: 7px;
-      width: fit-content;
-      font-size: .72rem; font-weight: 700;
-      letter-spacing: .05em; text-transform: uppercase;
-      padding: .34rem .85rem; border-radius: 50px;
-      margin-bottom: 1.1rem;
-      position: relative; z-index: 1;
-    }
-    .open-status.show { display: inline-flex; }
-    .open-status .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .open-status.open   { background: rgba(31,170,83,.10); color: #157a3b; border: 1px solid rgba(31,170,83,.32); }
-    .open-status.open .dot   { background: #25d366; animation: dot-pulse 2s infinite; }
-    .open-status.closed { background: rgba(74,96,128,.10); color: var(--soft); border: 1px solid rgba(74,96,128,.26); }
-    .open-status.closed .dot { background: #e8a020; }
-    @keyframes dot-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
-      50%      { box-shadow: 0 0 0 6px rgba(37,211,102,0); }
-    }
 
     /* ─── PRICE / QUEBRA DE OBJEÇÃO ─── */
     #investimento { background: var(--pure); }
@@ -1196,12 +1192,16 @@
     .docs-cta p strong { color: var(--white); }
 
     /* ─── REDUCED MOTION (acessibilidade) ───
-       Mantém as animações de marca (brilho dos botões, ticker, fade ao rolar) e
-       desliga apenas os brilhos pulsantes contínuos — os mais incômodos para quem
-       tem sensibilidade a movimento. */
+       Para quem pediu menos movimento no sistema: nada anima, nada desliza —
+       o conteúdo aparece direto no estado final. */
     @media (prefers-reduced-motion: reduce) {
-      .float-wa,
-      .open-status.open .dot { animation: none !important; }
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+      .fade { opacity: 1 !important; transform: none !important; }
+      .hero-in > * { opacity: 1 !important; transform: none !important; }
       html { scroll-behavior: auto; }
     }
   </style>
@@ -1287,14 +1287,7 @@
 
   <!-- HERO -->
   <section class="hero" aria-labelledby="h1">
-    <div class="container">
-
-      <p class="hero-location">
-        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        Jardim Cumbica · Guarulhos, SP
-      </p>
-
-      <span id="openStatus" class="open-status" aria-live="polite"></span>
+    <div class="container hero-in">
 
       <h1 id="h1">
         Despachante veicular em Guarulhos
@@ -1332,15 +1325,15 @@
 
       <div class="hero-stats">
         <div>
-          <div class="stat-num">+2.500<em>+</em></div>
+          <div class="stat-num"><span class="count" data-to="2500" data-prefix="+">+2.500</span><em>+</em></div>
           <div class="stat-lbl">Serviços realizados</div>
         </div>
         <div>
-          <div class="stat-num">10<em> anos</em></div>
+          <div class="stat-num"><span class="count" data-to="10">10</span><em> anos</em></div>
           <div class="stat-lbl">atuando em Guarulhos</div>
         </div>
         <div>
-          <div class="stat-num">4,9<em> ★</em></div>
+          <div class="stat-num"><span class="count" data-to="4.9" data-decimals="1">4,9</span><em> ★</em></div>
           <div class="stat-lbl">no Google Maps</div>
         </div>
         <div>
@@ -1920,6 +1913,50 @@
     }
   }, true);
 
+  // ─── NAV GANHA ELEVAÇÃO AO ROLAR ───
+  (function() {
+    const navEl = document.querySelector('nav');
+    if (!navEl) return;
+    const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
+  // ─── CONTADORES DAS ESTATÍSTICAS ───
+  (function() {
+    const els = Array.from(document.querySelectorAll('.stat-num .count'));
+    if (!els.length) return;
+    const semMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function fmt(v, dec, prefix) {
+      const s = v.toLocaleString('pt-BR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+      return (prefix || '') + s;
+    }
+    function animar(el) {
+      const alvo = parseFloat(el.dataset.to);
+      const dec = parseInt(el.dataset.decimals || '0', 10);
+      const prefix = el.dataset.prefix || '';
+      if (semMovimento || !isFinite(alvo)) { el.textContent = fmt(alvo, dec, prefix); return; }
+      const dur = 1100;
+      const t0 = performance.now();
+      function passo(t) {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(alvo * eased, dec, prefix);
+        if (p < 1) requestAnimationFrame(passo);
+        else el.textContent = fmt(alvo, dec, prefix);
+      }
+      requestAnimationFrame(passo);
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { animar(en.target); io.unobserve(en.target); }
+      });
+    }, { threshold: .4 });
+    els.forEach(el => io.observe(el));
+  })();
+
   // ─── SELETOR RÁPIDO DO HERO → WHATSAPP ───
   (function() {
     const form = document.getElementById('heroPicker');
@@ -1950,49 +1987,6 @@
       });
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
     Object.keys(map).forEach(id => spy.observe(document.getElementById(id)));
-  })();
-
-  // ─── STATUS: ABERTO AGORA / PRÓXIMO HORÁRIO ───
-  (function() {
-    const el = document.getElementById('openStatus');
-    if (!el) return;
-    const dias = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
-    // Seg–Sex 08–18h · Sáb 08–13h
-    function horario(day) {
-      if (day >= 1 && day <= 5) return [8, 18];
-      if (day === 6) return [8, 13];
-      return null;
-    }
-    function proximaAbertura(d) {
-      for (let i = 1; i <= 7; i++) {
-        const t = new Date(d);
-        t.setDate(d.getDate() + i);
-        if (horario(t.getDay())) {
-          return i === 1 ? 'amanhã às 8h' : (dias[t.getDay()] + ' às 8h');
-        }
-      }
-      return 'no horário comercial';
-    }
-    function render() {
-      const d = new Date();
-      const h = d.getHours() + d.getMinutes() / 60;
-      const hoje = horario(d.getDay());
-      let aberto = false;
-      if (hoje && h >= hoje[0] && h < hoje[1]) aberto = true;
-      el.classList.add('show');
-      if (aberto) {
-        el.className = 'open-status show open';
-        el.innerHTML = '<span class="dot"></span>Aberto agora · resposta rápida';
-      } else {
-        let quando;
-        if (hoje && h < hoje[0]) quando = 'hoje às 8h';
-        else quando = proximaAbertura(d);
-        el.className = 'open-status show closed';
-        el.innerHTML = '<span class="dot"></span>Fora do horário · respondemos ' + quando;
-      }
-    }
-    render();
-    setInterval(render, 60000);
   })();
 
   // ─── REVIEWS CAROUSEL (mobile only) ───
