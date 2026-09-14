@@ -375,6 +375,7 @@
       min-height: 52px;
     }
     .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+    .btn-outline svg { width: 20px; height: 20px; flex-shrink: 0; }
 
     /* ─── FLOATING WhatsApp — com label no desktop ─── */
     .float-wa {
@@ -1297,6 +1298,7 @@
       font-size: .875rem; color: var(--soft);
     }
     .price-bullets li::before { content: '✓'; color: var(--brand); font-weight: 800; flex-shrink: 0; }
+    .price-bullets li > span { flex: 1; }
     .price-bullets li strong { color: var(--brand-deep); font-weight: 700; }
 
     /* ─── FORM: VALIDAÇÃO INLINE + CONSENTIMENTO LGPD ─── */
@@ -1338,7 +1340,7 @@
       /* esconde o float redondo no mobile pra não sobrepor a barra */
       .float-wa { display: none; }
       /* espaço pro conteúdo não ficar embaixo da barra */
-      body { padding-bottom: 66px; }
+      body { padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)); }
     }
 
     /* ─── SELO DE GARANTIA / RISK-REVERSAL ─── */
@@ -1666,10 +1668,10 @@
       <p class="slead">Sem pegadinha e sem taxa escondida. O orçamento é gratuito e você só decide depois de ver o preço completo — incluindo eventuais débitos.</p>
       <div class="price-card">
         <ul class="price-bullets">
-          <li><strong>Orçamento 100% gratuito</strong> e sem compromisso</li>
-          <li><strong>Preço fechado antes de iniciar</strong> — zero surpresa no meio</li>
-          <li><strong>Débitos do veículo? Parcelamos em até 12x</strong> no cartão</li>
-          <li><strong>Você recebe o valor por escrito</strong> pelo WhatsApp</li>
+          <li><span><strong>Orçamento 100% gratuito</strong> e sem compromisso</span></li>
+          <li><span><strong>Preço fechado antes de iniciar</strong> — zero surpresa no meio</span></li>
+          <li><span><strong>Débitos do veículo? Parcelamos em até 12x</strong> no cartão</span></li>
+          <li><span><strong>Você recebe o valor por escrito</strong> pelo WhatsApp</span></li>
         </ul>
         <!-- DICA DE CONVERSÃO: insira aqui faixas reais "a partir de R$ X" por serviço (ex.: Transferência a partir de R$ —, Licenciamento a partir de R$ —). Preço visível reduz abandono do visitante comparador. -->
         <a class="btn-primary"
