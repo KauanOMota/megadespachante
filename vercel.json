@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "megadespachante.vercel.app" }],
+      "destination": "https://megadespachantegru.com.br/:path*",
+      "permanent": true
+    }
+  ]
+}
