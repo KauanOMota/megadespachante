@@ -6,4 +6,4 @@ Disallow: /assets/
 Disallow: /*.json$
 
 # Sitemap
-Sitemap: https://megadespachante.vercel.app/sitemap.xml
+Sitemap: https://megadespachante.com.br/sitemap.xml
