@@ -716,6 +716,35 @@
     .why-ico svg { width: 24px; height: 24px; fill: none; stroke: var(--brand); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .why h3  { font-size: 1rem; font-weight: 800; color: var(--brand-deep); margin-bottom: .35rem; }
     .why p   { font-size: .855rem; color: var(--soft); }
+    /* No computador o título é só texto: o botão existe para o acordeão do celular */
+    .why-q { all: unset; display: block; font: inherit; color: inherit; }
+    .why-seta { display: none; }
+
+    /* Celular: cada diferencial vira uma linha compacta que abre ao tocar */
+    @media(max-width: 767px) {
+      .why-grid { gap: .55rem; }
+      .why { padding: 0; border-top: 0; border-left: 3px solid var(--brand); }
+      .why-ico { display: none; }
+      .why h3 { margin: 0; font-size: .98rem; }
+      .why-q {
+        display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+        width: 100%; box-sizing: border-box; min-height: 54px; padding: .8rem 1rem;
+        cursor: pointer; -webkit-tap-highlight-color: transparent;
+      }
+      .why-q:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: var(--r); }
+      .why-seta {
+        display: block; flex-shrink: 0; width: 20px; height: 20px;
+        fill: none; stroke: var(--brand); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+        transition: transform .25s ease;
+      }
+      .why-q[aria-expanded="true"] .why-seta { transform: rotate(180deg); }
+      /* Abre e fecha animando a altura real do texto */
+      .why-d { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s ease; }
+      .why-d > p { overflow: hidden; padding: 0 1rem; }
+      .why.aberto .why-d { grid-template-rows: 1fr; }
+      .why.aberto .why-d > p { padding-bottom: .95rem; }
+    }
+    @media(max-width: 767px) and (prefers-reduced-motion: reduce) { .why-d, .why-seta { transition: none; } }
 
     /* ─── LOJA FÍSICA ─── */
     .loja {
@@ -1652,12 +1681,12 @@
       <h2 class="sh2" id="h2-why">O despachante veicular mais completo de Guarulhos</h2>
       <p class="slead">Mais de 10 anos resolvendo documentação veicular no Jardim Cumbica. Veja o que nos diferencia dos demais despachantes em Guarulhos.</p>
       <div class="why-grid">
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3>Prazo real de 3 a 7 dias úteis</h3><p>Nossa relação consolidada com o DETRAN de Guarulhos garante prazos que a maioria dos despachantes não consegue cumprir.</p></div>
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><h3>Tudo pelo WhatsApp, sem sair de casa</h3><p>Envie documentos por foto, receba atualizações em tempo real e acompanhe o processo todo pelo celular.</p></div>
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><h3>Orçamento transparente, sem taxas ocultas</h3><p>Você sabe exatamente quanto vai pagar antes de fechar. Nenhuma cobrança surpresa no meio do processo.</p></div>
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3>Localizado no Jardim Cumbica, Guarulhos</h3><p>Estamos na Av. Venturosa, 1179 — pertinho de você, atendendo presencialmente e por WhatsApp toda a Grande SP.</p></div>
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><h3>Segurança jurídica em cada transferência</h3><p>Verificamos débitos, restrições e histórico do veículo antes de iniciar. Zero risco de surpresas pós-compra.</p></div>
-        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><h3>4,9 no Google com 247 avaliações reais</h3><p>Clientes reais de Guarulhos e região avaliando nosso serviço há mais de uma década de atuação.</p></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d1"><span>Prazo real de 3 a 7 dias úteis</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d1"><p>Nossa relação consolidada com o DETRAN de Guarulhos garante prazos que a maioria dos despachantes não consegue cumprir.</p></div></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d2"><span>Tudo pelo WhatsApp, sem sair de casa</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d2"><p>Envie documentos por foto, receba atualizações em tempo real e acompanhe o processo todo pelo celular.</p></div></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d3"><span>Orçamento transparente, sem taxas ocultas</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d3"><p>Você sabe exatamente quanto vai pagar antes de fechar. Nenhuma cobrança surpresa no meio do processo.</p></div></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d4"><span>Localizado no Jardim Cumbica, Guarulhos</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d4"><p>Estamos na Av. Venturosa, 1179 — pertinho de você, atendendo presencialmente e por WhatsApp toda a Grande SP.</p></div></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d5"><span>Segurança jurídica em cada transferência</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d5"><p>Verificamos débitos, restrições e histórico do veículo antes de iniciar. Zero risco de surpresas pós-compra.</p></div></div>
+        <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><h3><button type="button" class="why-q" aria-expanded="true" aria-controls="why-d6"><span>4,9 no Google com 247 avaliações reais</span><svg class="why-seta" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></h3><div class="why-d" id="why-d6"><p>Clientes reais de Guarulhos e região avaliando nosso serviço há mais de uma década de atuação.</p></div></div>
       </div>
 
       <!-- LOJA FÍSICA: a fachada prova que existe uma loja de verdade. Foto e botão levam ao mapa e ao formulário. -->
@@ -2202,6 +2231,35 @@
       track('whatsapp_click', { origem: 'hero_seletor', servico: svc, campos_preenchidos: linhas.length + (nome ? 1 : 0) });
       window.open('https://wa.me/5511982858733?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
+  })();
+
+  // ─── DIFERENCIAIS: acordeão só no celular ───
+  // No celular cada cartão mostra só o título e abre ao tocar; no computador todos ficam abertos.
+  (function() {
+    const cards = Array.from(document.querySelectorAll('.why'));
+    if (!cards.length) return;
+    const celular = window.matchMedia('(max-width: 767px)');
+    function ajusta() {
+      cards.forEach(card => {
+        const btn = card.querySelector('.why-q');
+        if (!btn) return;
+        card.classList.remove('aberto');
+        btn.setAttribute('aria-expanded', celular.matches ? 'false' : 'true');
+        // No computador o título não é clicável, então sai da navegação por teclado.
+        if (celular.matches) btn.removeAttribute('tabindex'); else btn.setAttribute('tabindex', '-1');
+      });
+    }
+    cards.forEach(card => {
+      const btn = card.querySelector('.why-q');
+      btn && btn.addEventListener('click', () => {
+        if (!celular.matches) return;
+        const abrir = !card.classList.contains('aberto');
+        card.classList.toggle('aberto', abrir);
+        btn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+      });
+    });
+    ajusta();
+    (celular.addEventListener ? celular.addEventListener('change', ajusta) : celular.addListener(ajusta));
   })();
 
   // ─── SCROLLSPY: destaca no menu a seção visível ───
