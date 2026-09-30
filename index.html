@@ -443,6 +443,45 @@
       .hero-picker button { width: 100%; }
     }
 
+    /* Campos extras do seletor: aparecem só para o serviço escolhido */
+    .hero-picker.tem-extra select { flex-basis: 100%; }
+    .hero-picker.tem-extra button { flex: 1 1 100%; order: 3; }
+    .hero-extra { flex: 1 1 100%; order: 2; padding: .2rem .5rem .15rem; animation: hx-in .28s ease both; }
+    @keyframes hx-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+    .hx-titulo { font-size: .86rem; font-weight: 700; color: var(--brand-deep); margin-bottom: .6rem; }
+    .hx-campos { display: grid; grid-template-columns: 1fr; gap: .7rem; }
+    @media(min-width: 541px) { .hx-campos { grid-template-columns: 1fr 1fr; } .hx-campo.largo { grid-column: 1 / -1; } }
+    .hx-campo > label, .hx-rot { display: block; padding: 0; font-size: .78rem; font-weight: 700; color: var(--soft); margin-bottom: .3rem; }
+    .hx-campo > label small { font-weight: 500; color: var(--gray); }
+    .hx-campo input[type=text], .hx-campo input[type=tel], .hx-campo textarea {
+      width: 100%; min-height: 46px;
+      border: 1px solid var(--muted); border-radius: 10px; background: var(--white);
+      padding: .55rem .75rem; font: inherit; font-size: 1rem; color: var(--text);
+    }
+    .hx-campo textarea { min-height: 84px; resize: vertical; }
+    .hx-campo input:focus-visible, .hx-campo textarea:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; border-color: var(--brand); }
+    .hx-campo input.hx-placa { text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+    .hx-campo input::placeholder, .hx-campo textarea::placeholder { color: var(--gray); font-weight: 500; letter-spacing: normal; }
+    .hx-erro { display: none; font-size: .76rem; color: #c8262c; margin-top: .3rem; }
+    .hx-campo.invalido input { border-color: #e5484d; }
+    .hx-campo.invalido .hx-erro { display: block; }
+    .hx-chips { display: flex; flex-wrap: wrap; gap: .45rem; border: 0; padding: 0; margin: 0; }
+    .hx-chips legend { padding: 0; }
+    .hx-chip { position: relative; }
+    .hx-chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .hx-chip span {
+      display: inline-flex; align-items: center; min-height: 40px; padding: 0 .9rem;
+      border: 1px solid var(--muted); border-radius: 999px; background: var(--white);
+      font-size: .9rem; font-weight: 600; color: var(--soft); cursor: pointer;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .hx-chip input:checked + span { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .hx-chip input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .hx-aviso { font-size: .8rem; color: #8a4b00; background: #fff4e0; border-radius: 8px; padding: .5rem .7rem; margin-top: .45rem; }
+    .hx-nota { display: flex; align-items: flex-start; gap: 6px; font-size: .76rem; color: var(--gray); line-height: 1.45; margin-top: .7rem; }
+    .hx-nota svg { width: 13px; height: 13px; fill: var(--gray); flex-shrink: 0; margin-top: 2px; }
+    @media (prefers-reduced-motion: reduce) { .hero-extra { animation: none; } }
+
     .hero-reassure {
       display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
       font-size: .87rem; color: var(--gray); margin-top: .9rem; line-height: 1.5;
@@ -1348,6 +1387,15 @@
           <option>Laudo cautelar / vistoria</option>
           <option>Outro serviço</option>
         </select>
+        <!-- Campos que aparecem conforme o serviço: o atendente já recebe placa, RENAVAM etc. na mensagem -->
+        <div class="hero-extra" id="heroExtra" hidden>
+          <p class="hx-titulo">Quer adiantar? Preencha o que tiver em mãos:</p>
+          <div class="hx-campos" id="hxCampos"></div>
+          <p class="hx-nota">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6z"/></svg>
+            Tudo é opcional. Os dados vão só na sua mensagem do WhatsApp; o site não guarda nada.
+          </p>
+        </div>
         <button type="submit">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Pedir orçamento
@@ -2023,16 +2071,135 @@
   })();
 
   // ─── SELETOR RÁPIDO DO HERO → WHATSAPP ───
+  // Cada serviço mostra só os campos que o despachante precisa para começar.
+  // Tudo é opcional; o que for preenchido vai organizado na mensagem.
   (function() {
     const form = document.getElementById('heroPicker');
     if (!form) return;
+    const sel = document.getElementById('heroSvc');
+    const extra = document.getElementById('heroExtra');
+    const caixa = document.getElementById('hxCampos');
+
+    // rotulo: o que aparece no site · chave: como vai na mensagem
+    const CAMPOS = {
+      placa:      { tipo: 'placa',   rotulo: 'Placa do veículo', chave: 'Placa', ph: 'ABC1D23' },
+      renavam:    { tipo: 'renavam', rotulo: 'RENAVAM', dica: 'está no documento do veículo', chave: 'RENAVAM', ph: 'Só números' },
+      modelo:     { tipo: 'texto',   rotulo: 'Modelo e ano', chave: 'Veículo', ph: 'Ex.: Onix 2022' },
+      papel:      { tipo: 'escolha', rotulo: 'Você', chave: 'Situação', opcoes: ['Comprei o veículo', 'Vendi o veículo'], largo: true },
+      documento:  { tipo: 'escolha', rotulo: 'Qual documento?', chave: 'Documento', opcoes: ['CRLV (licenciamento)', 'CRV / ATPV (transferência)', 'Não sei'], largo: true },
+      motivo:     { tipo: 'escolha', rotulo: 'O que aconteceu?', chave: 'Motivo', opcoes: ['Perdi', 'Foi roubado ou furtado', 'Está danificado'], largo: true,
+                    aviso: { quando: 'Foi roubado ou furtado', texto: 'Em caso de roubo ou furto é preciso o Boletim de Ocorrência. Se já tiver, mande a foto na conversa.' } },
+      pendencias: { tipo: 'varias',  rotulo: 'O que está pendente?', chave: 'Pendências', opcoes: ['IPVA', 'Multas', 'Licenciamento', 'Não sei'], largo: true },
+      veiculo:    { tipo: 'escolha', rotulo: 'Tipo de veículo', chave: 'Tipo', opcoes: ['Carro', 'Moto', 'Caminhão / utilitário'], largo: true },
+      detalhes:   { tipo: 'area',    rotulo: 'Conte o que você precisa', chave: 'Detalhes', ph: 'Ex.: comprei uma moto de outro estado e preciso regularizar', largo: true },
+      nome:       { tipo: 'texto',   rotulo: 'Seu nome', chave: 'Nome', ph: 'Como podemos te chamar?', auto: 'given-name' }
+    };
+    const SERVICOS = {
+      'Transferência de veículo':          ['placa', 'renavam', 'papel', 'nome'],
+      'Licenciamento / CRLV':              ['placa', 'renavam', 'nome'],
+      'Segunda via de documento':          ['placa', 'renavam', 'documento', 'motivo', 'nome'],
+      'Placa Mercosul':                    ['placa', 'veiculo', 'nome'],
+      'Regularização de débitos e multas': ['placa', 'renavam', 'pendencias', 'nome'],
+      'Primeiro emplacamento':             ['modelo', 'veiculo', 'nome'],
+      'Laudo cautelar / vistoria':         ['placa', 'modelo', 'nome'],
+      'Outro serviço':                     ['detalhes', 'nome']
+    };
+    // Guarda o que já foi digitado: trocar de serviço não apaga a placa.
+    const valores = {};
+
+    const PLACA_OK = /^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/; // antiga (ABC1234) ou Mercosul (ABC1D23)
+    const limpaPlaca = v => v.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7);
+    const limpaNum = v => v.replace(/\D/g, '').slice(0, 11);
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    function campoHTML(id, c) {
+      const v = valores[id];
+      const cls = 'hx-campo' + (c.largo ? ' largo' : '');
+      const fid = 'hx-' + id;
+      if (c.tipo === 'escolha' || c.tipo === 'varias') {
+        const tipoInput = c.tipo === 'escolha' ? 'radio' : 'checkbox';
+        const marcados = [].concat(v || []);
+        const chips = c.opcoes.map(o => '<label class="hx-chip"><input type="' + tipoInput + '" name="' + fid + '" value="' + esc(o) + '"' + (marcados.includes(o) ? ' checked' : '') + '><span>' + esc(o) + '</span></label>').join('');
+        const aviso = c.aviso ? '<p class="hx-aviso" data-aviso="' + id + '"' + (marcados.includes(c.aviso.quando) ? '' : ' hidden') + '>' + esc(c.aviso.texto) + '</p>' : '';
+        return '<div class="' + cls + '"><fieldset class="hx-chips"><legend class="hx-rot">' + esc(c.rotulo) + '</legend>' + chips + '</fieldset>' + aviso + '</div>';
+      }
+      if (c.tipo === 'area') {
+        return '<div class="' + cls + '"><label for="' + fid + '">' + esc(c.rotulo) + '</label><textarea id="' + fid + '" data-campo="' + id + '" placeholder="' + esc(c.ph) + '">' + esc(v || '') + '</textarea></div>';
+      }
+      const extras = {
+        placa:   ' autocapitalize="characters" autocomplete="off" spellcheck="false" class="hx-placa"',
+        renavam: ' inputmode="numeric" autocomplete="off"',
+        texto:   c.auto ? ' autocomplete="' + c.auto + '"' : ''
+      }[c.tipo];
+      const erro = { placa: 'Confira a placa: 3 letras e 4 caracteres, como ABC1D23 ou ABC1234.', renavam: 'O RENAVAM tem 9 a 11 números.' }[c.tipo];
+      const dica = c.dica ? ' <small>(' + esc(c.dica) + ')</small>' : '';
+      return '<div class="' + cls + '"><label for="' + fid + '">' + esc(c.rotulo) + dica + '</label>' +
+        '<input type="' + (c.tipo === 'renavam' ? 'tel' : 'text') + '" id="' + fid + '" data-campo="' + id + '" placeholder="' + esc(c.ph) + '" value="' + esc(v || '') + '"' + extras + (erro ? ' aria-describedby="' + fid + '-erro"' : '') + '>' +
+        (erro ? '<p class="hx-erro" id="' + fid + '-erro">' + erro + '</p>' : '') + '</div>';
+    }
+
+    function mostraCampos() {
+      const lista = SERVICOS[sel.value];
+      if (!lista) { extra.hidden = true; form.classList.remove('tem-extra'); caixa.innerHTML = ''; return; }
+      caixa.innerHTML = lista.map(id => campoHTML(id, CAMPOS[id])).join('');
+      extra.hidden = false;
+      form.classList.add('tem-extra');
+    }
+    sel.addEventListener('change', mostraCampos);
+
+    // Digitação: normaliza placa e RENAVAM e lembra os valores.
+    caixa.addEventListener('input', (e) => {
+      const el = e.target;
+      const id = el.dataset.campo;
+      if (!id) return;
+      if (id === 'placa') el.value = limpaPlaca(el.value);
+      if (id === 'renavam') el.value = limpaNum(el.value);
+      valores[id] = el.value;
+      el.closest('.hx-campo').classList.remove('invalido');
+    });
+    // Escolhas: guarda as marcadas e mostra o aviso quando precisa.
+    caixa.addEventListener('change', (e) => {
+      const el = e.target;
+      if (el.type !== 'radio' && el.type !== 'checkbox') return;
+      const id = el.name.replace('hx-', '');
+      const marcados = Array.from(caixa.querySelectorAll('input[name="' + el.name + '"]:checked')).map(i => i.value);
+      valores[id] = el.type === 'radio' ? marcados[0] : marcados;
+      const c = CAMPOS[id];
+      const aviso = c.aviso && caixa.querySelector('[data-aviso="' + id + '"]');
+      if (aviso) aviso.hidden = !marcados.includes(c.aviso.quando);
+    });
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const sel = document.getElementById('heroSvc');
-      const svc = sel ? sel.value : '';
-      if (!svc) { if (sel) sel.focus(); return; }
-      track('whatsapp_click', { origem: 'hero_seletor', servico: svc });
-      const msg = 'Olá! Vim pelo site do Mega Despachante e preciso de: ' + svc + '. Pode me passar o orçamento?';
+      const svc = sel.value;
+      if (!svc) { sel.focus(); return; }
+      const lista = SERVICOS[svc] || [];
+
+      // Placa e RENAVAM só são conferidos se a pessoa preencheu.
+      let primeiroErro = null;
+      [['placa', v => PLACA_OK.test(v)], ['renavam', v => v.length >= 9]].forEach(([id, ok]) => {
+        const el = caixa.querySelector('[data-campo="' + id + '"]');
+        if (!el || !el.value) return;
+        const valido = ok(el.value);
+        el.closest('.hx-campo').classList.toggle('invalido', !valido);
+        if (!valido && !primeiroErro) primeiroErro = el;
+      });
+      if (primeiroErro) { primeiroErro.focus(); return; }
+
+      const linhas = [];
+      lista.forEach(id => {
+        if (id === 'nome') return;
+        const v = valores[id];
+        const txt = Array.isArray(v) ? v.join(', ') : (v || '').trim();
+        if (txt) linhas.push('*' + CAMPOS[id].chave + ':* ' + txt);
+      });
+      const nome = (valores.nome || '').trim();
+      const msg = 'Olá, Mega Despachante!' + (nome ? ' Aqui é ' + nome + '.' : '') +
+        ' Vim pelo site e preciso de: *' + svc + '*.' +
+        (linhas.length ? '\n\n' + linhas.join('\n') : '') +
+        '\n\nPode me passar o orçamento?';
+
+      track('whatsapp_click', { origem: 'hero_seletor', servico: svc, campos_preenchidos: linhas.length + (nome ? 1 : 0) });
       window.open('https://wa.me/5511982858733?text=' + encodeURIComponent(msg), '_blank', 'noopener');
     });
   })();
