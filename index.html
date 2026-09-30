@@ -2201,7 +2201,12 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const svc = sel.value;
-      if (!svc) { sel.focus(); return; }
+      // Escolher o serviço é opcional: sem ele, vai a mensagem padrão do site.
+      if (!svc) {
+        track('whatsapp_click', { origem: 'hero_seletor', servico: 'nao_escolhido' });
+        window.open('https://wa.me/5511982858733?text=' + encodeURIComponent('Olá! Vim pelo site e quero um orçamento.'), '_blank', 'noopener');
+        return;
+      }
       const lista = SERVICOS[svc] || [];
 
       // Placa e RENAVAM só são conferidos se a pessoa preencheu.
