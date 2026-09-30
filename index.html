@@ -176,12 +176,12 @@
     .logo-circle {
       width: 38px; height: 38px;
       border-radius: 50%;
-      background: var(--brand);
+      background: #004AAD; /* o azul do logo oficial */
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       overflow: hidden;
     }
-    .logo-circle svg { width: 26px; height: 18px; }
+    .logo-circle img { width: 25px; height: auto; display: block; }
     .logo-wordmark {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 850;
@@ -677,6 +677,45 @@
     .why-ico svg { width: 24px; height: 24px; fill: none; stroke: var(--brand); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .why h3  { font-size: 1rem; font-weight: 800; color: var(--brand-deep); margin-bottom: .35rem; }
     .why p   { font-size: .855rem; color: var(--soft); }
+
+    /* ─── LOJA FÍSICA ─── */
+    .loja {
+      margin-top: 2rem;
+      display: grid; grid-template-columns: 1fr;
+      background: var(--pure); border-radius: var(--r); box-shadow: var(--sh); overflow: hidden;
+    }
+    @media(min-width: 860px) { .loja { grid-template-columns: 1.15fr 1fr; } }
+    .loja-foto { position: relative; display: block; overflow: hidden; line-height: 0; }
+    .loja-foto img { width: 100%; height: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; transition: transform .5s ease; }
+    .loja-foto:hover img { transform: scale(1.03); }
+    .loja-pin {
+      position: absolute; left: .9rem; bottom: .9rem;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(13,30,82,.9); color: #fff;
+      font-size: .8rem; font-weight: 700; line-height: 1.2;
+      padding: .5rem .8rem; border-radius: 999px;
+    }
+    .loja-pin svg { width: 15px; height: 15px; fill: var(--gold); flex-shrink: 0; }
+    .loja-txt { padding: 1.5rem 1.3rem 1.7rem; display: flex; flex-direction: column; justify-content: center; gap: .65rem; }
+    @media(min-width: 860px) { .loja-txt { padding: 2.2rem; } }
+    .loja-txt .eyebrow { margin-bottom: 0; }
+    .loja-txt h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 800; color: var(--brand-deep); line-height: 1.2; }
+    .loja-txt > p:not(.eyebrow) { font-size: .95rem; color: var(--soft); }
+    .loja-horas { list-style: none; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; font-size: .875rem; font-weight: 600; color: var(--brand-deep); }
+    .loja-horas li { display: flex; align-items: center; gap: 6px; }
+    .loja-horas svg { width: 16px; height: 16px; fill: none; stroke: var(--brand); stroke-width: 2; stroke-linecap: round; }
+    .loja-btns { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .35rem; }
+    .btn-loc {
+      display: inline-flex; align-items: center; gap: 8px; min-height: 46px;
+      background: var(--brand); color: #fff; text-decoration: none;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.08rem; letter-spacing: .02em;
+      padding: .7rem 1.25rem; border-radius: 999px;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .btn-loc:hover { background: var(--brand-dark); transform: translateY(-2px); }
+    .btn-loc svg { width: 18px; height: 18px; fill: currentColor; }
+    .btn-rota { display: inline-flex; align-items: center; min-height: 44px; color: var(--brand); font-size: .9rem; font-weight: 700; text-underline-offset: 3px; }
+    .loja-foto:focus-visible, .btn-loc:focus-visible, .btn-rota:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
     /* ─── REGIONS ─── */
     #regioes { background: var(--pure); }
@@ -1234,10 +1273,8 @@
 <nav role="navigation" aria-label="Menu principal">
   <a class="logo" href="/" aria-label="Mega Despachante — início">
     <div class="logo-circle" aria-hidden="true">
-      <!-- MD monograma fiel à marca -->
-      <svg viewBox="0 0 52 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <text x="2" y="30" font-family="Arial Black, sans-serif" font-weight="900" font-size="32" fill="white" letter-spacing="-2">MD</text>
-      </svg>
+      <!-- Monograma MD da marca, vetorizado a partir do logo oficial -->
+      <img src="/monograma-md.svg" alt="" width="25" height="15" />
     </div>
     <div class="logo-wordmark">
       MEGA DESPACHANTE
@@ -1574,6 +1611,34 @@
         <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div><h3>Segurança jurídica em cada transferência</h3><p>Verificamos débitos, restrições e histórico do veículo antes de iniciar. Zero risco de surpresas pós-compra.</p></div>
         <div class="why fade"><div class="why-ico"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><h3>4,9 no Google com 247 avaliações reais</h3><p>Clientes reais de Guarulhos e região avaliando nosso serviço há mais de uma década de atuação.</p></div>
       </div>
+
+      <!-- LOJA FÍSICA: a fachada prova que existe uma loja de verdade. Foto e botão levam ao mapa e ao formulário. -->
+      <div class="loja fade" id="loja">
+        <a class="loja-foto" href="#contato" aria-label="Ver a localização da loja no mapa">
+          <img src="/loja-mega-despachante.jpg"
+               srcset="/loja-mega-despachante-720.jpg 720w, /loja-mega-despachante.jpg 1200w"
+               sizes="(min-width: 860px) 560px, 100vw"
+               width="1200" height="900" loading="lazy"
+               alt="Fachada da loja do Mega Despachante na Av. Venturosa, 1179, Jardim Cumbica, Guarulhos" />
+          <span class="loja-pin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>Av. Venturosa, 1179 · ver no mapa</span>
+        </a>
+        <div class="loja-txt">
+          <p class="eyebrow">Loja física em Guarulhos</p>
+          <h3>Venha conhecer a nossa loja no Jardim Cumbica</h3>
+          <p>Atendimento presencial na Av. Venturosa, 1179. Se preferir, resolva tudo pelo WhatsApp, sem sair de casa.</p>
+          <ul class="loja-horas" role="list">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Seg a sex: 08h às 18h</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Sábado: 08h às 13h</li>
+          </ul>
+          <div class="loja-btns">
+            <a class="btn-loc" href="#contato">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              Ver localização
+            </a>
+            <a class="btn-rota" href="https://www.google.com/maps/dir/?api=1&destination=Mega+Despachante,+Av.+Venturosa,+1179+-+Jardim+Cumbica,+Guarulhos+-+SP" target="_blank" rel="noopener">Como chegar pelo Google Maps ↗</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1725,7 +1790,7 @@
       <div class="f-brand">
         <div class="f-brand-logo">
           <div class="logo-circle" aria-hidden="true">
-            <svg viewBox="0 0 52 36" fill="none"><text x="2" y="30" font-family="Arial Black, sans-serif" font-weight="900" font-size="32" fill="white" letter-spacing="-2">MD</text></svg>
+            <img src="/monograma-md.svg" alt="" width="25" height="15" />
           </div>
           <div class="f-brand-wordmark">
             MEGA DESPACHANTE
